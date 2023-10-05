@@ -54,7 +54,7 @@ public class test6 {
 		// je.executeScript("arguments[0].removeAttribute('data-cy')", scrollElement);
 		String attributeValue = scrollElement.getAttribute("data-cy");// two
 		System.out.println(attributeValue);
-		// driver.close();
+		 driver.close();
 	}
 	@Test
 	public void TestCase4() throws InterruptedException {
@@ -88,15 +88,16 @@ public class test6 {
 	
 	
 	@Test
-	public void TestCase6() throws InterruptedException {
-		 System.setProperty("webdriver.chrome.driver", "C:\\\\Users\\\\ASUS\\\\OneDrive\\\\Desktop\\\\chromedriver\\\\chromedriver.exe");
-		 driver = new ChromeDriver();
-		driver.get("http://www.webdriveruniversity.com/Actions/index.html");
-		Actions ac = new Actions(driver);
-		WebElement draggable=driver.findElement(By.id("draggable"));
-		WebElement dropable=driver.findElement(By.id("droppable"));
-		ac.dragAndDrop(draggable, dropable).build().perform();
-		Assert.assertEquals(dropable.getText(), "Dropped");
+	public void testcase6() throws InterruptedException {
+		driver= new ChromeDriver();
+	   driver.get("http://www.webdriveruniversity.com/Actions/index.html");
+	   Actions ac = new Actions(driver);
+	   WebElement draggable = driver.findElement(By.id("draggable"));
+	   WebElement droppable = driver.findElement(By.id("droppable"));
+	   ac.dragAndDrop(draggable, droppable).build().perform();
+	   Assert.assertEquals(droppable.getText(), "Dropped!");
+	   driver.close();
+	
 		
 	}
 	
@@ -138,6 +139,7 @@ public class test6 {
 		ac.moveToElement(e).build().perform();
 		WebElement e2=driver.findElement(By.cssSelector("#div-hover > div.dropdown.hover > div"));
 		Assert.assertEquals(true, e2.isDisplayed());
+		driver.close();
 		
 	
 	}	
