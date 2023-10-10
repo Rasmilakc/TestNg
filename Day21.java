@@ -1,71 +1,56 @@
-package seleniumtutorials;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+package testng1;
+
+import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-public class Day21 {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String path="C:\\JAVA\\SeleniumTutorial\\src\\seleniumtutorials\\config.properties";
-	   
-	    Properties prop = new Properties();
-		
-		
-		try {
-
-			FileInputStream fileInput = new FileInputStream(path);
-			prop.load(fileInput);
-			String url = prop.getProperty("baseUrl");
-			String browser = prop.getProperty("browser");
-			String un = prop.getProperty("username");
-			String pd = prop.getProperty("password");
-
-			// writing to the file
-			prop.put("city", "pune");
-			FileOutputStream outputStrem = new FileOutputStream(path);
-			// Storing the properties file
-			prop.store(outputStrem, "This is a sample properties file");
-		
-
-
-			if (browser.equals("chrome")) {
-				// code to setup browser
-				System.setProperty("webdriver.chrome.driver", "C:\\Users\\ASUS\\OneDrive\\Desktop\\chromedriver\\chromedriver.exe");
-			    ChromeDriver driver=new ChromeDriver();
-				driver.get(url);
-				driver.findElement(By.cssSelector("#user-name")).sendKeys(un);
-				driver.findElement(By.cssSelector("#password")).sendKeys(pd);
-				driver.findElement(By.cssSelector("#login-button")).click();
-
-				if (driver.getCurrentUrl().contains("inventory")) {
-					System.out.println("Testcase pass");
-				} else {
-					System.out.println("Test case fail");
-				}
-
-			} else if (browser.equals("firefox")) {
-				// code to setup firefox
-
-			} else if (browser.equals("edge")) {
-				// code to edge
+public class test15 {
+	WebDriver driver;
+	@Test
+	public void TestcaseOne() {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\ASUS\\OneDrive\\Desktop\\chromedriver\\chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.get("http://www.webdriveruniversity.com/");
+		driver.findElement(By.id("contact-us")).click();
+		Set<String>handles=driver.getWindowHandles();
+		boolean windowfound=false;
+		for (String wd:handles) {
+			driver.switchTo().window(wd);
+			if(driver.getCurrentUrl().contains("Contact-Us")) {
+				windowfound=true;
 			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			
+			}
+		Assert.assertTrue(windowfound);
+		
+		
+		TakesScreenshot screenshot=(TakesScreenshot)driver;
+		//capturing the screen shot
+		File src=screenshot.getScreenshotAs(OutputType.FILE);
+		String path="C:\\JAVA\\testng\\img.png";
+		File destination=new File(path);
+		try {
+			FileUtils.copyFile(src,destination);
 		} catch (IOException e) {
-
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-
+		
+		
+		
+		
+		}
+		
+		
 	}
 
 
